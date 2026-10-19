@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Sora", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Latar lembut hijau-putih */
+  --color-paper: #f4f7f2;
+  --color-paper-soft: #eaf0e6;
+  --color-paper-deep: #dfe7d9;
+
+  /* Hijau daun — warna utama */
+  --color-leaf-50: #f1f8f1;
+  --color-leaf-100: #ddf0dd;
+  --color-leaf-200: #bde2c0;
+  --color-leaf-300: #92cf99;
+  --color-leaf-400: #62b46e;
+  --color-leaf-500: #3f9a50;
+  --color-leaf-600: #2e7c3f;
+  --color-leaf-700: #266335;
+  --color-leaf-800: #1f4e2c;
+  --color-leaf-900: #183d24;
+  --color-leaf-950: #0b2214;
+
+  /* Netral hangat kehijauan untuk teks & permukaan */
+  --color-bark-50: #f7f8f6;
+  --color-bark-100: #e9ece7;
+  --color-bark-200: #d5dbd3;
+  --color-bark-300: #b3bcb1;
+  --color-bark-400: #8a9489;
+  --color-bark-500: #6a756a;
+  --color-bark-600: #525c53;
+  --color-bark-700: #404941;
+  --color-bark-800: #2b322c;
+  --color-bark-900: #1c221d;
+  --color-bark-950: #121613;
+
+  /* Tanah liat — aksen bumi */
+  --color-clay-50: #fbf3ee;
+  --color-clay-100: #f6e4d9;
+  --color-clay-200: #ebc5ae;
+  --color-clay-300: #dea07e;
+  --color-clay-400: #ce7c55;
+  --color-clay-500: #b9603a;
+  --color-clay-600: #9a4a2c;
+  --color-clay-700: #7a3a24;
+  --color-clay-800: #5c2d1e;
+  --color-clay-900: #45231a;
+
+  /* Emas panen */
+  --color-harvest-100: #fdf1cf;
+  --color-harvest-300: #f3d27a;
+  --color-harvest-500: #d9a521;
+  --color-harvest-700: #96700f;
+
+  --shadow-soft: 0 1px 2px rgba(18, 32, 20, 0.05), 0 12px 32px -12px rgba(18, 32, 20, 0.18);
+  --shadow-lift: 0 2px 6px rgba(18, 32, 20, 0.07), 0 28px 60px -24px rgba(18, 32, 20, 0.32);
+
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-pop: pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-grow: grow 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-bark-900);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-leaf-300);
+    color: var(--color-leaf-950);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-leaf-500);
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-bark-300) transparent;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-bark-200/70 bg-white shadow-soft;
+  }
+
+  .card-pad {
+    @apply rounded-2xl border border-bark-200/70 bg-white p-5 shadow-soft;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-bark-200 bg-white px-3.5 py-2.5 text-sm text-bark-900 shadow-[inset_0_1px_2px_rgba(18,32,20,0.04)] transition placeholder:text-bark-400 focus:border-leaf-400 focus:outline-none focus:ring-4 focus:ring-leaf-100;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-semibold tracking-wide text-bark-600 uppercase;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply bg-leaf-700 text-white shadow-[0_10px_24px_-12px_rgba(24,61,36,0.9)] hover:bg-leaf-800;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply border border-bark-200 bg-white text-bark-800 hover:border-leaf-300 hover:bg-leaf-50 hover:text-leaf-800;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply text-bark-600 hover:bg-bark-100 hover:text-bark-900;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply border border-clay-200 bg-clay-50 text-clay-700 hover:bg-clay-100;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset;
+  }
+
+  .skeleton {
+    @apply rounded-xl bg-gradient-to-r from-bark-100 via-bark-50 to-bark-100 bg-[length:200%_100%] animate-shimmer;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-bark-600 transition hover:bg-leaf-50 hover:text-leaf-800;
+  }
+
+  .nav-link-active {
+    @apply bg-leaf-700 text-white shadow-[0_10px_22px_-14px_rgba(24,61,36,1)] hover:bg-leaf-800 hover:text-white;
+  }
+
+  .grain {
+    background-image: radial-gradient(rgba(24, 61, 36, 0.06) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+}
