@@ -21,16 +21,18 @@ berdasarkan **famili botani**, **kebutuhan hara**, **riwayat hama**, dan **hasil
 > berperan sebagai *serverless function* yang menghubungkan React ke Neon — setara dengan
 > kebutuhan "API endpoints" pada spesifikasi.
 
+---
+
 ## Menjalankan
 
 ```bash
 # 1. Siapkan variabel lingkungan (gunakan string koneksi Neon)
-echo 'DATABASE_URL=postgresql://USER:PASSWORD@ep-xxxx.neon.tech/neondb?sslmode=require' > .env
+echo 'DATABASE_URL=postgresql://neondb_owner:npg_JqNK5O1fLbSe@ep-billowing-field-b4vvosbq-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require' > .env
 
 # 2. Instal dependensi
 npm install
 
-# 3. Terapkan skema
+# 3. Terapkan skema ke database
 npx drizzle-kit push          # cara cepat
 # atau jalankan migrasi SQL:
 npx drizzle-kit migrate       # memakai folder drizzle/
@@ -45,6 +47,8 @@ Pada permintaan pertama, `src/db/bootstrap.ts` otomatis:
 1. membuat tabel bila belum ada (idempoten, aman di Neon),
 2. mengisi data referensi **11 famili botani** dan **51 tanaman**,
 3. mengisi data contoh (2 kebun, 6 petak, 12 catatan tanam, 6 uji tanah) bila basis data masih kosong.
+
+---
 
 ## Skema basis data
 
@@ -111,6 +115,7 @@ src/
 │  └─ api/                     # Route handlers (serverless)
 ├─ components/
 │  ├─ app-shell.tsx            # Layout: sidebar desktop + navigasi mobile
+│  ├─ trakteer-widget.tsx      # Widget donasi Trakteer (sudut kanan bawah)
 │  ├─ plot-card.tsx            # PlotCard
 │  ├─ rotation-engine.tsx      # RotationEngine
 │  ├─ soil-form.tsx            # SoilForm + SoilHealthPanel
@@ -127,8 +132,37 @@ src/
    ├─ soil.ts                  # Interpretasi hasil uji tanah
    ├─ types.ts                 # Antarmuka TypeScript bersama
    ├─ hooks.ts                 # TanStack Query hooks & mutations
-   └─ api-client.ts            # Klien HTTP bertipe
+   ├─ api-client.ts            # Klien HTTP bertipe
+   └─ api-server.ts            # Helper route handler
 ```
+
+## Donasi & Dukungan
+
+Web app ini gratis & bebas iklan. Dukung agar situs tetap online tanpa iklan dengan memberikan
+"kopi kecil" melalui Trakteer.
+
+- Widget donasi muncul di sudut kanan bawah layar
+- Klik widget untuk melihat pilihan nominal traktiran (mulai Rp6.000 dan kelipatannya)
+- QR Code ditampilkan langsung dalam aplikasi — pengguna tidak perlu berpindah halaman
+- Link resmi: https://trakteer.id/perpus_opera/
+
+## Unduh Source Code
+
+Kode lengkap web app ini tersedia gratis di GitHub:
+
+- Repository: https://github.com/MZF/terrasiklus-crop-rotation-application-1-gdp
+- Lisensi: Open Source oleh **MZF - 2026**
+
+Tombol unduh juga tersedia di dalam widget donasi di sudut kanan bawah layar.
+
+## Lisensi
+
+**Open Source oleh MZF - 2026**
+
+Semua kode dalam repositori ini tersedia secara bebas untuk digunakan, dimodifikasi, dan
+didistribusikan kembali sesuai ketentuan lisensi open source yang berlaku.
+
+---
 
 ## Validasi
 
@@ -137,3 +171,11 @@ npx next typegen
 npm exec tsc -- --noEmit
 npm run build
 ```
+
+## Deployment (Vercel + Neon)
+
+1. Push kode ke GitHub
+2. Import project di Vercel
+3. Tambahkan `DATABASE_URL` di Environment Variables Vercel
+4. Jalankan `npx drizzle-kit push` untuk membuat skema di Neon
+5. Deploy otomatis saat push ke branch `main`
